@@ -1,0 +1,66 @@
+apply plugin: 'java'
+
+
+sourceSets {
+    udpClient {
+        java {
+            srcDirs = ['src/udpClient']
+        }
+    }
+
+    udpServer {
+        java {
+            srcDirs = ['src/udpServer']
+        }
+    }
+
+    tcpClient {
+        java {
+            srcDirs = ['src/tcpClient']
+        }
+    }
+
+    tcpServer {
+        java {
+            srcDirs = ['src/tcpServer']
+        }
+    }
+}
+
+task udpClientJar(type: Jar) {
+    description 'Create UDP Client executable jar.'
+    from sourceSets.udpClient.output
+    archiveName = "UDPClient.jar"
+    manifest {
+            attributes "Main-Class" : "UDPClient"
+    } 
+}
+
+task udpServerJar(type: Jar) {
+    description 'Create UDP Server executable jar'
+    from sourceSets.udpServer.output
+    archiveName = "UDPServer.jar"
+    manifest {
+            attributes "Main-Class" : "UDPServer"
+    }
+}
+
+task tcpClientJar(type: Jar) {
+    description 'Create TCP Client executable jar.'
+    from sourceSets.tcpClient.output
+    archiveName = "TCPClient.jar"
+    manifest {
+            attributes "Main-Class" : "TCPClient"
+    } 
+}
+
+task tcpServerJar(type: Jar) {
+    description 'Create TCP Server executable jar.'
+    from sourceSets.tcpServer.output
+    archiveName = "TCPServer.jar"
+    manifest {
+            attributes "Main-Class" : "TCPServer"
+    } 
+}
+
+task all(dependsOn: ['udpClientJar', 'udpServerJar', 'tcpClientJar', 'tcpServerJar'])
