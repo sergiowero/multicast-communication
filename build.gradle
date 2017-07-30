@@ -25,6 +25,24 @@ sourceSets {
             srcDirs = ['src/tcpServer']
         }
     }
+
+    multicastPeer {
+        java {
+            srcDirs = ['src/multicastPeer']
+        }
+    }
+
+    sendServer {
+        java {
+            srcDirs = ['src/filesendServer']
+        }
+    }
+
+    sendClient {
+        java {
+            srcDirs = ['src/filesendClient']
+        }
+    }
 }
 
 task udpClientJar(type: Jar) {
@@ -63,4 +81,31 @@ task tcpServerJar(type: Jar) {
     } 
 }
 
-task all(dependsOn: ['udpClientJar', 'udpServerJar', 'tcpClientJar', 'tcpServerJar'])
+task multicastPeerJar(type: Jar) {
+    description 'Create MulticastPeer executable jar.'
+    from sourceSets.multicastPeer.output
+    archiveName = "MulticastPeer.jar"
+    manifest {
+            attributes "Main-Class" : "MulticastPeer"
+    } 
+}
+
+task fileSendServerJar(type: Jar) {
+    description 'Create Send server executable jar.'
+    from sourceSets.sendServer.output
+    archiveName = "FileSendServer.jar"
+    manifest {
+            attributes "Main-Class" : "FileSendServer"
+    } 
+}
+
+task fileSendClientJar(type: Jar) {
+    description 'Create Send client executable jar.'
+    from sourceSets.sendClient.output
+    archiveName = "FileSendClient.jar"
+    manifest {
+            attributes "Main-Class" : "FileSendClient"
+    } 
+}
+
+task all(dependsOn: ['udpClientJar', 'udpServerJar', 'tcpClientJar', 'tcpServerJar', 'multicastPeerJar', 'fileSendServerJar', 'fileSendClientJar'])
