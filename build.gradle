@@ -43,6 +43,12 @@ sourceSets {
             srcDirs = ['src/filesendClient']
         }
     }
+
+    multicastTCPOverlay {
+        java {
+            srcDirs = ['src/multicastTcpOverlay']
+        }
+    }
 }
 
 task udpClientJar(type: Jar) {
@@ -108,4 +114,13 @@ task fileSendClientJar(type: Jar) {
     } 
 }
 
-task all(dependsOn: ['udpClientJar', 'udpServerJar', 'tcpClientJar', 'tcpServerJar', 'multicastPeerJar', 'fileSendServerJar', 'fileSendClientJar'])
+task multicastTCPOverlayJar(type: Jar) {
+    description 'Create Multicast TCP overlay executable jar.'
+    from sourceSets.multicastTCPOverlay.output
+    archiveName = "MulticastTCPOverlay.jar"
+    manifest {
+            attributes "Main-Class" : "MulticastTCPOverlay"
+    } 
+}
+
+task all(dependsOn: ['udpClientJar', 'udpServerJar', 'tcpClientJar', 'tcpServerJar', 'multicastPeerJar', 'fileSendServerJar', 'fileSendClientJar', 'multicastTCPOverlayJar'])
